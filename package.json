@@ -1,0 +1,15 @@
+{
+  "name": "important_verify",
+  "version": "1.1.1",
+  "description": "just use in front-end",
+  "main": "important_verify.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "front-end",
+    "important verify"
+  ],
+  "author": "",
+  "license": "ISC"
+}
