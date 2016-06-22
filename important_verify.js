@@ -295,12 +295,17 @@ $( document ).ready( function() {
         }
     }
 
-    $( '.important input:text, .important input:password, .important input[type="email"], .important .email, .important input[type="tel"], .important .tel, .important textarea, .important .select, .file-upload input:file' ).filter( ':not([disabled])' ).on( 'blur', important_verify );
+    $( '.important input:text, .important input:password, .important input[type="email"], .important .email, .important input[type="tel"], .important .tel, .important textarea, .important .select, .file-upload input:file' )
+        .filter( ':not([disabled])' )
+        .on( 'blur', important_verify );
+
     $( 'form' ).on( 'submit', function() {
         var _this = $( this );
         var _rv = true;
 
-        _this.find( '.important input:text, .important input:password, .important input[type="email"], .important .email, .important input[type="tel"], .important .tel, .important textarea, .important .select, .file-upload input:file' ).filter( ':not([disabled])' ).each( important_verify );
+        _this.find( '.important input:text, .important input:password, .important input[type="email"], .important .email, .important input[type="tel"], .important .tel, .important textarea, .important .select, .file-upload input:file' )
+            .filter( ':not([disabled])' )
+            .each( important_verify );
 
         if ( _this.find( '.warning' ).length > 0 ) _rv = false;
 
@@ -318,7 +323,7 @@ $( document ).ready( function() {
 
         if ( _self.is( '[type="tel"], .tel' ) ) {
             var c = _event.charCode;
-            if ( ( c < 48 || c > 57 ) && c != 45 && c != 13 ) {
+            if ( ( c < 48 || c > 57 ) && c != 45 && c != 13 && c != 8 && c != 0 ) {
                 return false;
             }
         }
@@ -326,11 +331,20 @@ $( document ).ready( function() {
         if ( _self.is( '[type="number"], .number' ) ) {
             var c = _event.charCode;
             // 0-9 E e + - . [enter]
-            if ( ( c < 48 || c > 57 ) && c != 69 && c != 101 && c != 43 && c != 45 && c != 46 && c != 13 ) {
+            if ( ( c < 48 || c > 57 ) && c != 69 && c != 101 && c != 43 && c != 45 && c != 46 && c != 13 && c != 8 && c != 0 ) {
                 return false;
             }
         }
     }
 
     $( '.input-verify' ).on( 'keypress', input_verify );
+
+    $.fn.verify = function() {
+        $( this ).find( 'input:text, input:password, input[type="email"], .email, input[type="tel"], .tel, textarea, .select, .file-upload input:file' )
+            .filter( ':not([disabled])' )
+            .each( important_verify );
+
+        return $( this ).find( '.warning' ).length == 0;
+    }
+
 } );
