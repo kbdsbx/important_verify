@@ -313,6 +313,20 @@ $( document ).ready( function() {
             } );
         }
 
+        // 多选非空
+        if ( _self.is( '[type="checkbox"], .checkbox' ) ) {
+            var _target = $( '[name="' + _self.attr( 'name' ) + '"]' );
+            if ( _self.find( '+ a' ).is( ':not(:hidden)' ) && ! _target.is( ':checked' ) ) {
+
+                _self.find( '+ a' )
+                    ._set_warning_event();
+            }
+
+            _target.find( '+ a' ).on( 'click', function() {
+                _target.find( '+ a' )._remove_warning_event();
+            } );
+        }
+
         // 下拉非空
         if ( _self.is( '.select, select' ) ) {
             if ( _self.val() == '0' ) {
@@ -323,6 +337,7 @@ $( document ).ready( function() {
                 _self._remove_warning_event();
             } );
         }
+
     }
 
     if ( window.blur_verify ) {
@@ -335,7 +350,7 @@ $( document ).ready( function() {
         var _this = $( this );
         var _rv = true;
 
-        _this.find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"]' )
+        _this.find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"]' )
             .filter( ':not([disabled])' )
             .each( important_verify );
 
@@ -369,10 +384,29 @@ $( document ).ready( function() {
         }
     }
 
+    var select_verify = function( _event ) {
+        var _self = $( this );
+        var _target = $( this ).parent().find( '[data-check-count]' );
+        
+        if ( _target.is( '[data-check-count]' ) ) {
+            if ( $( '[name="' + _target.attr( 'name' ) + '"]:checked' ).length > parseInt( _target.attr( 'data-check-count' ) ) ) {
+                _target.find( '+ a' )
+                    ._set_warning_event( 'count' );
+                _target.removeAttr( 'checked' );
+            }
+
+            _target.find( '+ a' ).on( 'click', function() {
+                _target.find( '+ a' )._remove_warning_event( 'count' );
+            } );
+        }
+    }
+
     $( '.input-verify' ).on( 'keypress', input_verify );
 
+    $( '[data-check-count] + a' ).on( 'click', select_verify );
+
     $.fn.verify = function() {
-        $( this ).find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .important .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"]' )
+        $( this ).find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .important .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"]' )
             .filter( ':not([disabled])' )
             .each( important_verify );
 
