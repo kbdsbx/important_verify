@@ -338,6 +338,17 @@ $( document ).ready( function() {
             } );
         }
 
+        // 搜索框
+        if ( _self.is( '.search-input' ) ) {
+            if ( $( _self.data( 'search-box' ) ).is( ':not(:hidden)' ) ) {
+                _self._set_warning_event( 'search' );
+            }
+
+            _self.off( 'change' ).on( 'change', function() {
+                _self._remove_warning_event( 'search' );
+            } );
+        }
+
     }
 
     if ( window.blur_verify ) {
@@ -350,7 +361,7 @@ $( document ).ready( function() {
         var _this = $( this );
         var _rv = true;
 
-        _this.find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"]' )
+        _this.find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"], .search-input:not(:hidden)' )
             .filter( ':not([disabled])' )
             .each( important_verify );
 
@@ -406,7 +417,7 @@ $( document ).ready( function() {
     $( '[data-check-count] + a' ).on( 'click', select_verify );
 
     $.fn.verify = function() {
-        $( this ).find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .important .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"]' )
+        $( this ).find( '.important input:text:not(:hidden), .important input:password:not(:hidden), .important input[type="email"]:not(:hidden), .important .email:not(:hidden), .important input[type="tel"]:not(:hidden), .important .tel:not(:hidden), .important textarea:not(:hidden), .important .select:not(:hidden), .important select:not(:hidden), .important .file-upload input:file:not(:hidden), .important .radio, .important input[type="radio"], .important .checkbox, .important input[type="checkbox"], .search-input:not(:hidden)' )
             .filter( ':not([disabled])' )
             .each( important_verify );
 
